@@ -1,0 +1,71 @@
+#include <bits/stdc++.h>
+using namespace std;
+int dx[] = {0, 1, 0, -1};
+int dy[] = {-1, 0, 1, 0};
+#define SIZE 1005
+int W, H, cnt = 0;
+bool vis[25][25];
+char cell[25][25];
+void dfs(int a, int b)
+{
+    vis[a][b] = 1;
+    for(int k = 0; k<4; k++)
+    {
+        int row = a + dx[k];
+        int col = b + dy[k];
+        if(row>=0 && row<H && col>=0 && col<W)
+        {
+            if(cell[row][col] == '.' && vis[row][col] == 0)
+            {
+               cnt++;
+               vis[row][col] = 1;
+               dfs(row, col);
+            }
+        }
+    }
+}
+void Clear()
+{
+    for(int i = 0; i<25; i++)
+    {
+        for(int j = 0; j<25; j++)
+        {
+            vis[i][j] = 0;
+        }
+    }
+}
+
+int main ()
+{
+    int T;
+    cin>>T;
+    for(int tc = 1; tc<=T; tc++)
+    {
+        Clear();
+        cin>>W>>H;
+        for(int i = 0; i<H; i++)
+        {
+            for(int j  = 0; j<W; j++)
+            {
+                cin>>cell[i][j];
+            }
+        }
+        int row, col;
+        for(int i = 0; i<H; i++)
+        {
+            for(int j  = 0; j<W; j++)
+            {
+                if(cell[i][j] == '@')
+                {
+                    row = i;
+                    col = j;
+                    break;
+                }
+            }
+        }
+        dfs(row, col);
+        cout<<"Case "<<tc<<": "<<cnt+1<<endl;
+        cnt = 0;
+    }
+    return 0;
+}
